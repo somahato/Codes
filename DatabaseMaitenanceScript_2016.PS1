@@ -2,7 +2,8 @@
 #Author: Sourav Mahato
 #Created Date:09/25/2019
 #Purpose: Script for grooming the data for Orchestrator database
-
+# This Script is only work with Old Legacy SCO web console. 
+#Applicable SCO version: SCO2012, SCO2012R2, SCO2016, SCO2019 with legacy Web console
 # Please save the Script in the following location: C:\Software
 
 # Also please donwload the module SCOrchestratorManagement.psm1 and kept it in the following location: C:\Software
