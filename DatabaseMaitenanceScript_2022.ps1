@@ -1,7 +1,10 @@
 ##################################################################
 #Author: Sourav Mahato
+
 #Created Date:09/25/2019
+
 #Modified Date: 07/06/2023
+
 #Purpose: Script for grooming the data for Orchestrator database
 
 # Please save the Script in the following location: for example: C:\Software
@@ -9,7 +12,7 @@
 #How to run: .\Runbooks.PS1 -MS SCORCHRB.Domain.COM -SQLServer SQLServername -SQLDB SQLDAtabaseName -Port 81
 
 ##################################################################
-###### Function for SQL Query
+# Function for SQL Query
 #######################################################################
 
 param([String] $MS,$SQLServer, $SQLDB, $Port)
@@ -51,9 +54,6 @@ Function Get-SQLTable($strSQLServer, $strSQLDatabase, $strSQLCommand, $intSQLTim
 	return $objTable
 }
 
-
-
-
 ####################################################################################################
 #
 # Saving the Information about the Runbooks which are in running state in Orchestrator
@@ -78,7 +78,6 @@ $RBResult = Get-SqlTable $SQLServer $SQLDB $RunbooksInfo
 
 $RBResult.RunbookID.guid
 
-
 ####################################################################################################
 #
 # Get the Information about the RunbookServer and Stop the Runbook service
@@ -96,7 +95,6 @@ $RBSResult.Computer
 Foreach ($RS in $RBSResult.Computer)
 
 {
-
             $status = "Running"
 
             $ServicetoStart= Get-Wmiobject -Class win32_service -computer $RS -filter "name = 'orunbook'"
@@ -115,7 +113,6 @@ Foreach ($RS in $RBSResult.Computer)
 
 }
 
-
 ####################################################################################################
 #
 # Execute below SQL queries to clean tables (Policyinstances, Objectinstances, Objectinstancedata, Events, Policy_publish_queue)
@@ -131,7 +128,6 @@ TRUNCATE TABLE OBJECTINSTANCES
 DELETE FROM POLICYINSTANCES"
 
 Get-SqlTable $SQLServer $SQLDB $DeleteEvent
-
 
 ####################################################################################################
 #
@@ -169,7 +165,6 @@ $cmd2 = "update POLICIES set LogSpecificData = 0 where LogSpecificData = 1"
 
 Get-SqlTable $SQLServer $SQLDB $cmd2
 
-
 ####################################################################################################
 #
 # Now stopping all running runbooks
@@ -204,9 +199,7 @@ CLOSE job_cursor
 
 DEALLOCATE job_cursor"
 
-
 Get-SqlTable $SQLServer $SQLDB $cmd3
-
 
 ####################################################################################################
 #
@@ -217,7 +210,6 @@ Get-SqlTable $SQLServer $SQLDB $cmd3
 Write-Host "Now clearing all the orphaned runbook instances" -ForegroundColor Yellow
 
 Get-SqlTable $SQLServer $SQLDB "exec [Microsoft.SystemCenter.Orchestrator.Runtime.Internal].[ClearOrphanedRunbookInstances]"
-
 
 ####################################################################################################
 #
@@ -234,7 +226,6 @@ SET @Completed = 0
 WHILE @Completed = 0 EXEC sp_CustomLogCleanup @Completed OUTPUT, @FilterType=1,@XEntries=0"
 
 Get-SqlTable $SQLServer $SQLDB $cmd4
-
 
 ####################################################################################################
 #
@@ -254,7 +245,6 @@ Get-SqlTable $SQLServer $SQLDB "EXEC [Microsoft.SystemCenter.Orchestrator.Mainte
 
 Get-SqlTable $SQLServer $SQLDB "EXEC [Microsoft.SystemCenter.Orchestrator.Maintenance].[EnqueueRecurrentTask] @taskName = 'ClearAuthorizationCache'"
 
-
 $cmd5 = "SELECT 
 
 [m].[Name], 
@@ -266,7 +256,6 @@ $cmd5 = "SELECT
 [m].[LastExecutionTime] 
 
 FROM [Orchestrator].[Microsoft.SystemCenter.Orchestrator.Maintenance].[MaintenanceTasks] [m]"
-
 
 $Output = Get-SqlTable $SQLServer $SQLDB $cmd5
 
@@ -286,10 +275,8 @@ foreach ($LCD in $LogCommonData.UniqueID)
 
 Write-Host "Working on $LCD" -ForegroundColor Yellow
 
-    Get-SqlTable $SQLServer $SQLDB "update POLICIES set LogCommonData = 1 where UniqueID = '$LCD'"
-
+Get-SqlTable $SQLServer $SQLDB "update POLICIES set LogCommonData = 1 where UniqueID = '$LCD'"
 }
-
 
 foreach ($LSD in $LogSpecificData.UniqueID)
 
@@ -297,10 +284,9 @@ foreach ($LSD in $LogSpecificData.UniqueID)
 
 Write-Host "Working on $LSD" -ForegroundColor Yellow
 
-    Get-SqlTable $SQLServer $SQLDB "update POLICIES set LogSpecificData = 1 where UniqueID = '$LSD'"
+Get-SqlTable $SQLServer $SQLDB "update POLICIES set LogSpecificData = 1 where UniqueID = '$LSD'"
 
 }
-
 
 ####################################################################################################
 #
@@ -308,9 +294,7 @@ Write-Host "Working on $LSD" -ForegroundColor Yellow
 #
 ####################################################################################################
 
-
 Write-Host "Now starting the RUnbook service for the Runbook servers" -ForegroundColor Yellow
-
 
 Foreach ($RS in $RBSResult.Computer)
 
@@ -330,7 +314,6 @@ Foreach ($RS in $RBSResult.Computer)
 
                 Write-Host "started the Runbook service on $RS" -ForegroundColor Green    
             }
-
 }
 
 ####################################################################################################
@@ -346,16 +329,13 @@ $RunbookURL = "http://$($MS):$($port)/api/runbooks"
 foreach ($RunbookID in $RBResult.RunbookID.guid)
 
 {
-
     Write-Host "Working on $RunbookID" -ForegroundColor Yellow
 
     $Runbooks = Invoke-RestMethod -Uri $RunbookURL -UseDefaultCredentials -Method Get
     
     $Runbook = $Runbooks.value | where-object {$_.ID -eq "$RunbookID"}
 
-
     If ($Runbook)
-
     {
       
         $runbookparameter = Invoke-RestMethod -Uri ('{0}/api/RunbookParameters' -f $OrchURI, $rbid) -UseDefaultCredentials -Method Get
@@ -371,7 +351,6 @@ foreach ($RunbookID in $RBResult.RunbookID.guid)
             $JobParameters += [pscustomobject]@{Name=$name.name;Value=$ParameterValue}
         }
 
-
         # To Start a job with parameters
         $Body = @{
             RunbookId = $Runbook.Id
@@ -380,9 +359,7 @@ foreach ($RunbookID in $RBResult.RunbookID.guid)
         } | ConvertTo-Json
 
         $Job = Invoke-RestMethod -Uri $JobUrl -UseDefaultCredentials -Method Post -Body $Body -ContentType 'application/json'
-
-        Write-Host "Started Runbook $RunbookID successfully" -ForegroundColor Green
-
+	If($Job)
+        {Write-Host "Started Runbook $RunbookID successfully" -ForegroundColor Green}
     }
-
 }
