@@ -17,7 +17,7 @@ Import-module OperationsManager
 
 #Connect to localhost when running on the management server
 
-$connect = New-SCOMManagementGroupConnection –ComputerName localhost
+$connect = New-SCOMManagementGroupConnection â€“ComputerName localhost
 
 # Create header for HTML Report
 
@@ -263,6 +263,27 @@ else
 
 ##############################################################################
 
+# Get status of SCOM Unix/Linux Servers Which are in Grayed Out State and input them into report
+
+write-host "Getting SCOM Unix/Linux Servers Which are in Grayed Out State" -ForegroundColor Yellow
+
+$MonitoringObject = Get-SCOMClass -Name "Microsoft.Unix.Computer" | Get-SCOMClassInstance
+
+$ReportOutput += "<p><H2>SCOM Unix/Linux Servers Which Are in Grayed Out State</H2></p>"
+
+$AgentCount = $MonitoringObject | where {($_.IsAvailable -eq $False -and $_.InMaintenanceMode -eq $False)} | Measure-Object
+
+if($AgentCount.Count -gt 0)
+{ 
+ $ReportOutput += $MonitoringObject | where {($_.IsAvailable -eq $False -and $_.InMaintenanceMode -eq $False)} | select DisplayName,HealthState,InMaintenanceMode |ConvertTo-HTML -fragment
+}
+else
+{ 
+ $ReportOutput += "<p>All SCOM Unix/Linux Servers are in Healthy State in SCOM Console.</p>"
+ 
+} 
+
+####################################################################################################
 # Get Alerts specific to Management Servers and put them in the report
 write-host "Getting Management Server Alerts" -ForegroundColor Yellow 
 $ReportOutput += "<h2>Management Server Alerts</h2>"
@@ -332,7 +353,7 @@ $ReportOutput += $Alerts  | Group-Object Name | Sort-object Count -desc | select
 write-host "Getting Top 10 Repeating Critical Alerts - All Time" -ForegroundColor Yellow 
 
 $ReportOutput += "<h2>Top 10 Repeating Critical Alerts - All Time</h2>"
-$ReportOutput += $AllAlerts | Sort -desc RepeatCount | select-object –first 10 Name, RepeatCount, MonitoringObjectPath, Description, ResolutionState | ConvertTo-HTML -fragment
+$ReportOutput += $AllAlerts | Sort -desc RepeatCount | select-object â€“first 10 Name, RepeatCount, MonitoringObjectPath, Description, ResolutionState | ConvertTo-HTML -fragment
 
 ##############################################################################
 
