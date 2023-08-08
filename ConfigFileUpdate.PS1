@@ -28,6 +28,21 @@ Foreach ($MS in $MSs)
 {
 
     ########################################################################################################
+    # Registry Update                                                           #
+    ########################################################################################################
+   
+   Invoke-Command -ComputerName $MS -ScriptBlock {reg add "HKLM\SYSTEM\CurrentControlSet\services\HealthService\Parameters" /v "State Queue Items" /t REG_DWORD /d 20480 /f}
+   Invoke-Command -ComputerName $MS -ScriptBlock {reg add "HKLM\SYSTEM\CurrentControlSet\services\HealthService\Parameters" /v "Persistence Checkpoint Depth Maximum" /t REG_DWORD /d 104857600 /f}
+   Invoke-Command -ComputerName $MS -ScriptBlock {reg add "HKLM\SYSTEM\CurrentControlSet\services\HealthService\Parameters" /v "Maximum Global Pending Data Count" /t REG_DWORD /d 7680 /f}
+   Invoke-Command -ComputerName $MS -ScriptBlock {reg add "HKLM\SOFTWARE\Microsoft\System Center\2010\Common" /v "GroupCalcPollingIntervalMilliseconds" /t REG_DWORD /d 1800000 /f}
+   Invoke-Command -ComputerName $MS -ScriptBlock {reg add "HKLM\SOFTWARE\Microsoft\Microsoft Operations Manager\3.0\Data Warehouse" /v "Command Timeout Seconds" /t REG_DWORD /d 1800 /f}
+   Invoke-Command -ComputerName $MS -ScriptBlock {reg add "HKLM\SOFTWARE\Microsoft\Microsoft Operations Manager\3.0\Data Warehouse" /v "Deployment Command Timeout Seconds" /t REG_DWORD /d 86400 /f}
+   Invoke-Command -ComputerName $MS -ScriptBlock {reg add "HKLM\SOFTWARE\Microsoft\Microsoft Operations Manager\3.0\Data Warehouse" /v "Bulk Insert Command Timeout Seconds" /t REG_DWORD /d 300 /f}
+   Invoke-Command -ComputerName $MS -ScriptBlock {reg add "HKLM\SOFTWARE\Microsoft\Microsoft Operations Manager\3.0\Config Service" /v "CommandTimeoutSeconds" /t REG_DWORD /d 500 /f}
+   Invoke-Command -ComputerName $MS -ScriptBlock {reg add "HKLM\SOFTWARE\Microsoft\System Center\2010\Common\DAL" /v "DALInitiateClearPool" /t REG_DWORD /d 1 /f}
+   Invoke-Command -ComputerName $MS -ScriptBlock {reg add "HKLM\SOFTWARE\Microsoft\System Center\2010\Common\DAL" /v "DALInitiateClearPoolSeconds" /t REG_DWORD /d 60 /f} 
+
+    ########################################################################################################
     # Backup of the config file before updating                                                            #
     ########################################################################################################
 
