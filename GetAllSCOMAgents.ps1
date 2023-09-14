@@ -1,10 +1,15 @@
 <###########################################################################################
-.Author: Sourav Mahato									   #
-.Created Date:13/09/2023								   #
-.Modified Date:14/09/2023								   #
-.Purpose: Script for to get SCOM managed server details including Unix server              #
-.How to run: Save the Script as .PS1 and run it from a SCOM Management Server.             #
-e.g PS C:\Users\sourav.LAB> .\GetAllSCOMAgents.ps1                                           #
+.Author
+Sourav Mahato
+.Created Date
+13/09/2023
+.Modified Date
+14/09/2023
+.Purpose
+Script for to get SCOM managed server details including Unix server              
+.How to run
+Save the Script as .PS1 and run it from a SCOM Management Server.             
+e.g PS C:\Users\sourav.LAB> .\GetAllSCOMAgents.ps1                                           
 ############################################################################################>
 
 $Cur = Get-Location
