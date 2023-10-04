@@ -8,7 +8,7 @@ https://learn.microsoft.com/en-us/system-center/orchestrator/standard-activities
 
 
 $userName = "lab\sourav"
-$password = ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force
+$password = ConvertTo-SecureString "Password" -AsPlainText -Force
 $cred = New-Object System.Management.Automation.PSCredential -ArgumentList ($userName, $password)
 $Result = Invoke-Command -Authentication Credssp -Credential $cred -ScriptBlock {
 $Server = [Environment]::Is64BitProcess
