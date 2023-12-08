@@ -359,7 +359,7 @@ function button ($title,$OldSQLServerOpsDB,$SQLServerOpsDB,$OldSQLServerOpsDW,$S
   
   $DBServerName3 = $Result3.MainDatabaseServerName_2C77AA48_DB0A_5D69_F8FF_20E48F3AED0F
   
-  If ($DBServerName3 -eq $return[1])
+  If ($DBServerName3 -eq $return[3])
   
   { Write-Host "Table $DataWarehouse is updated as $DBServerName3" -ForegroundColor Green
   Write-Host "
@@ -381,7 +381,7 @@ function button ($title,$OldSQLServerOpsDB,$SQLServerOpsDB,$OldSQLServerOpsDW,$S
   
   $DBServerName4 = $Result4.Post_MainDatabaseServerName_2C77AA48_DB0A_5D69_F8FF_20E48F3AED0F
   
-  If ($DBServerName4 -eq $return[1])
+  If ($DBServerName4 -eq $return[3])
   
   { Write-Host "Table $DataWarehouse_Log is updated as $DBServerName4" -ForegroundColor Green
   Write-Host "
@@ -403,7 +403,7 @@ function button ($title,$OldSQLServerOpsDB,$SQLServerOpsDB,$OldSQLServerOpsDW,$S
   
   $DBServerName5 = $Result5.MainDatabaseServerName_5C00C79B_6B71_6EEE_4ADE_80C11F84527A
   
-  If ($DBServerName5 -eq $return[1])
+  If ($DBServerName5 -eq $return[3])
   
   { Write-Host "Table $AppMonitoringDW is updated as $DBServerName5" -ForegroundColor Green
   Write-Host "
@@ -425,7 +425,7 @@ function button ($title,$OldSQLServerOpsDB,$SQLServerOpsDB,$OldSQLServerOpsDW,$S
   
   $DBServerName6 = $Result6.Post_MainDatabaseServerName_5C00C79B_6B71_6EEE_4ADE_80C11F84527A
   
-  If ($DBServerName6 -eq $return[1])
+  If ($DBServerName6 -eq $return[3])
   
   { Write-Host "Table $AppMonitoringDW_Log is updated as $DBServerName6" -ForegroundColor Green
   Write-Host "
@@ -447,7 +447,7 @@ function button ($title,$OldSQLServerOpsDB,$SQLServerOpsDB,$OldSQLServerOpsDW,$S
   
   $DBServerName7 = $Result7.DatabaseServerName_69FBB0E2_A6E8_0483_7993_B7AB180A7889
   
-  If ($DBServerName7 -eq $return[1])
+  If ($DBServerName7 -eq $return[3])
   
   { Write-Host "Table $OpsMgrDWWatcher is updated as $DBServerName7" -ForegroundColor Green
   Write-Host "
