@@ -1,3 +1,20 @@
+<#######################################################################################################################################################
+# Author: Sourav Mahato
+#
+# Created Date:12/12/2023
+#
+# Purpose: Script To put server in Maintenance mode in batches.
+
+ .Description
+  This script connects to OpsMgr management group via SDK and detects the objects which needs to be put in MM in SCOM.
+
+# https://learn.microsoft.com/en-us/troubleshoot/system-center/scom/remove-corrupted-apm-components
+#
+# How to run: PS C:\Script> .\AdvancedMMScript.ps1
+
+#Got help from here https://blog.tyang.org/2014/06/24/powershell-script-remove-obsolete-references-unsealed-opsmgr-management-packs/
+#######################################################################################################################################################>
+
 Import-Module operationsmanager
 
 $file = "C:\Softwares\Servers.txt"
