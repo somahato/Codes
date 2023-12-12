@@ -12,7 +12,6 @@
 #
 # How to run: PS C:\Script> .\AdvancedMMScript.ps1
 
-#Got help from here https://blog.tyang.org/2014/06/24/powershell-script-remove-obsolete-references-unsealed-opsmgr-management-packs/
 #######################################################################################################################################################>
 
 Import-Module operationsmanager
