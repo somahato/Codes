@@ -44,10 +44,10 @@ Foreach ($SQLCommand in $strSQLCommand)
 if ($?) {
 		#pull out table
 		$objTable = $objDataSet.Tables[0]
-	      }
+	}
 	
-	# Close the SQL connection.
-	$objSQLConnection.Close()
+# Close the SQL connection.
+$objSQLConnection.Close()
 	
-	# Return the dataset to caller.
-    return $objTable
+# Return the dataset to caller.
+return $objTable
