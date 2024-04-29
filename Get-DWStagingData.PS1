@@ -30,7 +30,7 @@ Foreach ($SQLCommand in $strSQLCommand)
 	$objSQLConnection.ConnectionString =  $strSQLConnect
 	$objSQLCmd = New-Object System.Data.SQLClient.SQLCommand
 	$objSQLCmd.CommandTimeout = $intSQLTimeout
-	$objSQLCmd.CommandText = $strSQLCommand
+	$objSQLCmd.CommandText = $SQLCommand
 	$objSQLCmd.Connection = $objSQLConnection
 	$objSQLAdapter = New-Object System.Data.SQLClient.SQLDataAdapter
 	$objSQLAdapter.SelectCommand = $objSQLCmd
