@@ -338,9 +338,9 @@ foreach ($RunbookID in $RBResult.RunbookID.guid)
     If ($Runbook)
     {
       
-        $runbookparameter = Invoke-RestMethod -Uri ('{0}/api/RunbookParameters' -f $OrchURI, $rbid) -UseDefaultCredentials -Method Get
+        $runbookparameter = Invoke-RestMethod -Uri http://$($MS):$($port)/api/RunbookParameters -UseDefaultCredentials -Method Get
     
-        $parameter = $runbookparameter.value |where {$_.runbookid -eq $runbook.id}
+        $parameter = $runbookparameter.value |where {$_.runbookid -eq $Runbook.id}
         
         $JobParameters = @() # Initialize the variable as an empty array
 
@@ -358,7 +358,8 @@ foreach ($RunbookID in $RBResult.RunbookID.guid)
             CreatedBy = $null
         } | ConvertTo-Json
 
-        $Job = Invoke-RestMethod -Uri $JobUrl -UseDefaultCredentials -Method Post -Body $Body -ContentType 'application/json'
+        $JobUrl = "http://$($MS):$($port)/api/jobs"
+	$Job = Invoke-RestMethod -Uri $JobUrl -UseDefaultCredentials -Method Post -Body $Body -ContentType 'application/json'
 	If($Job)
         {Write-Host "Started Runbook $RunbookID successfully" -ForegroundColor Green}
     }
